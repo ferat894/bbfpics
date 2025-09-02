@@ -1,4 +1,0 @@
-﻿# robots.txt
-User-agent: *
-Disallow: /admin/
-Crawl-delay: 120
