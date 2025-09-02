@@ -1,0 +1,74 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+
+<%@ Register Src="~/ucFooter.ascx" TagPrefix="uc1" TagName="ucFooter" %>
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="Fresh Beautiful flowers for all life's occasions, located in Clayton Victoria, serving Australia nationally." />
+    <meta name="keywords" content="Busy Bee Florist, Florist in VIC, Florist in Clayton VIC, Florist in Melbourne, Wedding, Silk, Funeral, Gift, Plant, Flowers, Service, Quality, Arrangement, Posy, Bouque, Clayton Flowers" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <title></title>
+    <link href="/css/bbf.css" rel="stylesheet" />
+    <!--[if lte IE 7]>
+    <link href="/css/ie7.css" rel="stylesheet" />
+    <![endif]-->    
+    <!--[if lte IE 8]>
+    <link href="/css/ie8.css" rel="stylesheet" />
+    <![endif]-->    
+    <script src="/Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/Scripts/modernizr-2.7.2.js" type="text/javascript"></script>
+    <script src="/Scripts/bbf.js"></script>
+    <asp:ContentPlaceHolder id="head" runat="server" />
+</head>
+<body>
+
+
+     <div id="page-wrapper">
+                
+        <div id="nav">
+            <div id="menu">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/contact">CONTACT</a></li>
+                    <li><a href="/romance">ROMANCE</a></li>
+                    <li><a href="/birthday">BIRTHDAY</a></li>
+                    <li><a href="/newbaby">NEW BABY</a></li>
+                    <li><a href="/justbecause">JUST...</a></li>
+                    <li><a href="/getwell">GET WELL</a></li>
+                    <li><a href="/specialoccasions">SPECIAL</a></li>
+                    <li><a href="/sympathy">SYMPATHY</a></li>
+                </ul>&nbsp;
+            </div>
+        </div>
+        <div class="clear"></div>
+
+
+
+
+        <div style="min-height:884px">
+            <div id="banner-image-container"><img src="/images/bbf-header.jpg" alt="Busy Bee Florist Logo" width="900" height="133" />
+                <span id="header-address">
+                    166 - 168 Clayton Road, Clayton Victoria 3168 <br />
+                    <strong>Tel: +61 3 9543 8588</strong>&nbsp;Fax: +61 3 9543 8599
+                </span>
+            </div>
+            <div>&nbsp;</div>
+            <div>
+                <asp:ContentPlaceHolder id="content" runat="server" />
+            </div>
+        </div>
+        <div>&nbsp;</div>
+
+        <uc1:ucFooter runat="server" ID="ucFooter" />
+    </div>
+
+
+
+</body>
+</html>

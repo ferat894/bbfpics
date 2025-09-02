@@ -1,0 +1,615 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+mrkCommon
+</name>
+</assembly>
+<members>
+<member name="M:mrk.Common.Geocode.ToRadian(System.Double)">
+ -----------------------------------------------------------------------------
+ <summary>Converts to radians</summary>
+	<param name="val">the value to convert to radians</param>
+	<returns>Double</returns>
+	<remarks></remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Geocode.DiffRadian(System.Double,System.Double)">
+ -----------------------------------------------------------------------------
+ <summary>Calculates the difference in radians</summary>
+	<param name="val1">the first radian value to compare against</param>
+	<param name="val2">the second radian value to compare against</param>
+	<returns>Double</returns>
+	<remarks></remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Geocode.CalcDistance(System.Double,System.Double,System.Double,System.Double)">
+ -----------------------------------------------------------------------------
+ <summary>Calculate the distance between two geocodes. Defaults to using Kilometers</summary>
+	<param name="lat1">first latitude coordinates (x)</param>
+	<param name="lng1">first longitude coordinates (y)</param>
+	<param name="lat2">second latitude coordinates (x)</param>
+	<param name="lng2">second longitude coordinates (y)</param>
+	<returns>double</returns>
+	<remarks></remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Geocode.CalcDistance(System.Double,System.Double,System.Double,System.Double,mrk.Common.GeoCodeMeasurement)">
+ -----------------------------------------------------------------------------
+ <summary>Calculate the distance between two geocodes. </summary>
+	<param name="lat1">first latitude coordinates (x)</param>
+	<param name="lng1">first longitude coordinates (y)</param>
+	<param name="lat2">second latitude coordinates (x)</param>
+	<param name="lng2">second longitude coordinates (y)</param>
+	<param name="m">the measurement scale to apply</param>
+	<returns>double</returns>
+	<remarks></remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Common.Geocode">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Common.Geocode
+ -----------------------------------------------------------------------------
+ <summary>
+ Performs geocode calculations
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Culture.CurrentCulture.CurrentRegionalCountryName">
+	<summary>
+ Gets the current regional country name (independant of the culture)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.CurrentCulture.CurrentCultureCountryName">
+	<summary>
+ Gets the current culture country name 
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.CurrentCulture.CurrentCultureCountryName(System.Globalization.CultureInfo)">
+	<summary>
+ Gets country name of the given culture
+ </summary>
+	<param name="culture">the culture object</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.CurrentCulture.CurrentCultureCountryName(System.String)">
+	<summary>
+ Gets country name of the given culture name
+ </summary>
+	<param name="culturename">the name of the culture (ie. en-AU)</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.CurrentCulture.CurrentCultureCountryCode">
+	<summary>
+ Gets the current culture country code (ie AU)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.Conversion.ToDecimal(System.String)">
+	<summary>
+ Converts to decimal taking into account culture information
+ </summary>
+	<param name="num">the number</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.Conversion.ToDecimal(System.String,System.IFormatProvider)">
+	<summary>
+ Converts to decimal taking into account culture information
+ </summary>
+	<param name="num">the number</param>
+	<param name="culture">Dim c As CultureInfo = New CultureInfo("en-AU")</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.Conversion.ToDecimal(System.String,System.String)">
+	<summary>
+ Converts to decimal taking into account culture information
+ </summary>
+	<param name="num">the number</param>
+	<param name="culture">ie. en-AU</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.Conversion.ToDate(System.String)">
+	<summary>
+ Converts to date taking into account culture information
+ </summary>
+	<param name="d">the date</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.Conversion.ToDate(System.String,System.IFormatProvider)">
+	<summary>
+ Converts to date taking into account culture information
+ </summary>
+	<param name="d">the date</param>
+	<param name="culture">Dim c As CultureInfo = New CultureInfo("en-AU")</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Culture.Conversion.ToDate(System.String,System.String)">
+	<summary>
+ Converts to date taking into account culture information
+ </summary>
+	<param name="d">the date</param>
+	<param name="culture">ie. en-AU</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:mrk.Culture.Conversion">
+	<summary>
+ culture senstive conversion class
+ </summary>
+	<remarks></remarks>
+</member><member name="M:mrk.Security.Cryptography.StringEncryption.Decrypt(System.String,System.String)">
+ -----------------------------------------------------------------------------
+ <summary>
+ Decrypts a string encrypted with the Encrypt function.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Security.Cryptography.StringEncryption.Encrypt(System.String,System.String)">
+ -----------------------------------------------------------------------------
+ <summary>
+ Encrypts a string using 3DES and a key derived from password using MD5.
+ </summary>
+	<param name="text">This is the text to encrypt</param>
+	<param name="password">password used to encrypt the string</param>
+	<returns>returns a string value</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Security.Cryptography.StringEncryption">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Security.Cryptography.StringEncryption
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions to encrypt and decrypt strings.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Security.Cryptography.Encryption.EncryptText(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Encrypts the text</summary>
+	<param name="strText">The text to be encrypted</param>
+	<returns>returns a string</returns>
+ ----------------------------------------------------------------------------- 
+
+</member><member name="M:mrk.Security.Cryptography.Encryption.DecryptText(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Decrypts the text</summary>
+	<param name="strText">The text to be decrypted</param>
+	<returns>returns a string</returns>
+ ----------------------------------------------------------------------------- 
+
+</member><member name="T:mrk.Security.Cryptography.Encryption">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Security.Cryptography.Encryption
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions to encrypt and decrypt strings without passwords
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptMACTripleDES(System.String,System.Byte[])">
+	<summary>
+ A MAC can be used to determine whether a message sent over an insecure channel has been tampered with, provided that the sender and receiver share a secret key. The sender computes the MAC for the original data, and sends both as a single message. The receiver recomputed the MAC on the received message, and checks that the computed MAC matches the transmitted MAC. MACTripleDES uses a key of length 8, 16 or 24 bytes, and produces a hash sequence of length 8 bytes.
+ </summary>
+	<param name="ClearString"></param>
+	<param name="Key">16</param>
+	<returns></returns>
+	<remarks>
+ A MAC can be used to determine whether a message sent over an insecure channel has been tampered with, provided that the sender and receiver share a secret key. The sender computes the MAC for the original data, and sends both as a single message. The receiver recomputed the MAC on the received message, and checks that the computed MAC matches the transmitted MAC. MACTripleDES uses a key of length 8, 16 or 24 bytes, and produces a hash sequence of length 8 bytes.
+ </remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptHMACSHA1(System.String,System.Byte[])">
+	<summary>
+ HMACSHA1 accepts keys of any size, and produces a hash sequence of length 20 bytes.
+ </summary>
+	<param name="ClearString"></param>
+	<param name="Key"></param>
+	<returns></returns>
+	<remarks>System.Security.Cryptography.HMACSHA1</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptSHA256Managed(System.String)">
+	<summary>
+ The hash size for SHA256 algorithm is 256 bits and the only implementation of this class is SHA256Managed.
+ </summary>
+	<param name="ClearString"></param>
+	<returns></returns>
+	<remarks>The hash size for SHA256 algorithm is 256 bits and the only implementation of this class is SHA256Managed.</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptSHA384Managed(System.String)">
+	<summary>
+ The hash size for SHA384 algorithm is 384 bits and the only implementation of this class is SHA384Managed.
+ </summary>
+	<param name="ClearString"></param>
+	<returns></returns>
+	<remarks>System.Security.Cryptography.SHA384</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptSHA512Managed(System.String)">
+	<summary>
+ The hash size for SHA512 algorithm is 512 bits and the only implementation of this class is SHA512Managed.
+ </summary>
+	<param name="ClearString"></param>
+	<returns></returns>
+	<remarks>System.Security.Cryptography.SHA512</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptMD5CSP(System.String)">
+	<summary>
+ The only implementation of this class is SHA1CryptoServiceProvider.
+ </summary>
+	<param name="ClearString"></param>
+	<returns></returns>
+	<remarks>System.Security.Cryptography.MD5</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptSHA256(System.String)">
+	<summary>
+ Normal SHA256 using System.Text.UnicodeEncoding
+ </summary>
+	<param name="clearText"></param>
+	<returns></returns>
+	<remarks>http://www.justskins.com/forums/asp-net-sha256-problem-34035.html</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.EncryptSHA256(System.String,System.Text.Encoding)">
+	<summary>
+ SHA256
+ </summary>
+	<param name="clearText"></param>
+	<param name="Encoding">System.Text.Encoding.ASCII, System.Text.Encoding.Unicode , System.Text.Encoding.ASCII</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.ComputeHashValue(System.Byte[])">
+	<summary>
+ HashSHA1 helper
+ </summary>
+	<param name="data"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.HashSHA1(System.String)">
+	<summary>
+ SHA1 hashing using Encoding.ASCII
+ </summary>
+	<param name="text"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.HashSHA1(System.String,System.Text.Encoding)">
+	<summary>
+ SHA1 hashing using Encoding.ASCII
+ </summary>
+	<param name="text"></param>
+	<param name="Encoding">System.Text.Encoding.ASCII, System.Text.Encoding.Unicode , System.Text.Encoding.ASCII</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.Helpers.ByteArrayToString(System.Byte[])">
+	<summary>
+ byte to string
+ </summary>
+	<param name="ba"></param>
+	<returns></returns>
+	<remarks>http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa-in-c</remarks>
+</member><member name="M:mrk.Security.Cryptography.Hash.Helpers.StringToByteArray(System.String)">
+	<summary>
+ string to byte
+ </summary>
+	<param name="hex"></param>
+	<returns></returns>
+	<remarks>http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa-in-c</remarks>
+</member><member name="T:mrk.Security.Cryptography.Hash">
+	<summary>
+ Hashing class
+ </summary>
+	<remarks>http://dotnetjunkies.com/WebLog/nettricks/articles/9040.aspx</remarks>
+</member><member name="M:mrk.XML.XMLParser.#ctor(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>creates a new instance of this object</summary>
+	<param name="filename">full filename of the xml datasource</param>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.XML.XMLParser.GetXMLContents(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Gets the contents of the xml file</summary>
+	<param name="xmlpath">the xml path to query</param>
+	<returns>string</returns>
+	<remarks>used to get html contents</remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.XML.XMLParser">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.XML.XMLParser
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ xml manipulation class
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Current.CurrencySymbol">
+	<summary>
+  Gets the current currency symbol using the CurrentCulture
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Current.CountryName">
+	<summary>
+ Gets the current country name of the current region 
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Current.Time">
+	<summary>
+ Will give the current time in readable format (10:10:59 AM)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Current.Time24H">
+	<summary>
+ Will give the current time in readable 24 format (22:10:59)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Current.CurrencyGroupSeparator">
+	<summary>
+ Current  Currency Group Separator
+ </summary>
+	<returns></returns>
+	<remarks>ystem.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator</remarks>
+</member><member name="T:mrk.Common.Current">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Common.Current
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class represents the all the current settings of the application.
+ ie. Currency, CountryName
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Conversion.StripAllAlphaCharacters(System.String,System.Char)">
+	<summary>
+ Will strip away alpha characters, leaving only numbers and period character
+ </summary>
+	<param name="s">the string to strip</param>
+	<param name="decimal_separator">the decimal separator</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Conversion.ToDecimal(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Converts a string to a decimal</summary>
+	<param name="str">The string to convert</param>
+	<returns>returns a decimal, zero by default</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Conversion.ToDecimal(System.String,System.Char)">
+	<summary>Converts a string to a decimal</summary>
+	<param name="str">The string to convert</param>
+	<param name="decimal_separator">the decimal separator sybmol</param>
+	<returns>returns a decimal, zero by default</returns>
+</member><member name="M:mrk.Common.Conversion.ToCurrency(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Converts a string to a decimal using Globalization.NumberStyles.Currency</summary>
+	<param name="str">The string to convert</param>
+	<returns>returns a decimal, zero by default</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Conversion.ToBoolean(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Converts a string to boolean</summary>
+	<param name="str">The string to convert</param>
+	<returns>returns a boolean, false by default</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Conversion.ToInteger(System.String,System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>Converts a string to an integer with optional default return value</summary>
+	<param name="str">The string to convert</param>
+	<param name="DefaultInteger">The default integer to set if conversion fails</param>
+	<returns>returns an integer</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Conversion.ToInteger(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Converts a string to an integer</summary>
+	<param name="str">The string to convert</param>
+	<returns>returns an integer</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Common.Conversion">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Common.Conversion
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions to perform conversions.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GenerateUniqueFilename(System.String,System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Generates a filename that is unique</summary>
+	<param name="path">The path of the file to be converted</param>
+	<param name="filename">the filename itself</param>
+	<returns>returns the absolute filename and path</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GenerateLeadingZero(System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>Returns a string representation of an integer with leading zeros</summary>
+	<param name="input">The integer to proccess.</param>
+	<returns>Returns a string representation of an integer with leading zeros</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GenerateLeadingZero(System.String,System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>Returns a string representation of an integer with leading zeros</summary>
+	<param name="val">The value to pad</param>
+	<param name="TotalDigits">Represents the number of zeros to include in the total output</param>
+	<returns>Returns a string representation of an integer with leading zeros</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GetRandomColor">
+	<summary>
+ will randomly generate a color for System.Drawing.Color
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Generation.GenerateRandomPasswordUsingGUID(System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>Generates random GUID password</summary>
+	<param name="length">The length of the password</param>
+	<returns>Returns a string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GenerateHashedDateTime(System.DateTime)">
+ -----------------------------------------------------------------------------
+ <summary>Generates Hashed string representation of a date time object</summary>
+	<param name="dt">The optional date time to process</param>
+	<returns>Returns a string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GenerateHashedGUID">
+ -----------------------------------------------------------------------------
+ <summary>Generates random Hashed GUID</summary>
+	<returns>Returns a string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Generation.GenerateHashText(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Hashes text using System.Text.UTF8Encoding</summary>
+	<param name="strPlainText">the text to hash</param>
+	<returns>Returns a string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Common.Generation">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Common.Generation
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions to generate strings and random strings
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.RegularExp.IsValidExpression(System.String,System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Check to see if string is valid against a regular expression</summary>
+	<param name="str">The string to be validated</param>
+	<param name="expression">the regular expression to be validated against</param>
+	<returns>returns boolean</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Common.RegularExp">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Common.RegularExp
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions to test aginst regular expressions.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Numbers.Ordinal(System.Int32)">
+	<summary>
+ gets the ordinal from the number. ie: 1st, 2nd
+ </summary>
+	<param name="number"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Numbers.IsOddNumber(System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>Checks if input is odd</summary>
+	<param name="number">The integer to check</param>
+	<returns>returns boolean</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Numbers.ToLastIntegerDecimal(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Returns the string number up until the last zero</summary>
+	<param name="str">The string to be validated</param>
+	<returns>returns string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Numbers.RandomNumber(System.Int32,System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>function description</summary>
+	<param name="MaxNumber">The upper limit of the generation</param>
+	<param name="MinNumber">The lower limit of the generation</param>
+	<returns>integer</returns>
+	<remarks></remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Numbers.PadZeros(System.Int32,System.Int32)">
+	<summary>
+ Pad digits with leading zeros
+ </summary>
+	<param name="num">the integer to pad</param>
+	<param name="totalDigits">specifies the number of digits to show</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Numbers.StripAllAlphaCharacters(System.String,System.Char)">
+	<summary>
+ Will strip away alpha characters, leaving only numbers and period character
+ </summary>
+	<param name="s">the string to strip</param>
+	<param name="decimal_separator">the decimal separator</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Numbers.ConvertNumberToText(System.Decimal)">
+ -----------------------------------------------------------------------------
+ <summary>Returns a text representation of the number</summary>
+	<param name="decAmount">The decimal amount to process</param>
+	<returns>text string</returns>
+	<remarks>Still prototype: and word is not yet implemented</remarks>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Common.Numbers">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Common.RegularExp
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions related to number manipulation.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Common.Strings.PadZeros(System.Int32,System.Int32)">
+	<summary>
+ Pad digits with leading zeros
+ </summary>
+	<param name="num">the integer to pad</param>
+	<param name="totalDigits">specifies the number of digits to show</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:mrk.Common.Strings">
+	<summary>
+ Strings Class: string related functions
+ </summary>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Dates.DateBetween(System.DateTime,System.DateTime,System.DateTime)">
+	<summary>
+ Finds if the BetweenDate is between the given dates
+ </summary>
+	<param name="StartDate">start date</param>
+	<param name="EndDate">end date</param>
+	<param name="BetweenDate">the between date</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Common.Dates.Ordinal(System.Int32)">
+	<summary>
+ gets the ordinal from the number. ie: 1st, 2nd
+ </summary>
+	<param name="number"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:mrk.Common.Dates">
+	<summary>
+ Dates Class: Functions relating to dates
+ </summary>
+	<remarks></remarks>
+</member><member name="P:My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

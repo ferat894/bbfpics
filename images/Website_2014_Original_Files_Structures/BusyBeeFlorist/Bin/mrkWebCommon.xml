@@ -1,0 +1,258 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+mrkWebCommon
+</name>
+</assembly>
+<members>
+<member name="P:My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:mrk.Web.Security.URLEncode.CreateEncodedURL(System.String,System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Creates an encoded URL string from URL and paramters</summary>
+	<param name="Params">The parameter only</param>
+	<param name="url">The url with the parameter</param>
+	<returns>returns the encoded url string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Security.URLEncode.CreateEncodedFromReturnURL(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Creates an encoded URL string</summary>
+	<param name="url">The url with the parameter</param>
+	<returns>returns the encoded url string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Security.URLEncode.EncodeAllQueryString(System.String,System.Web.HttpRequest,System.String,System.String,System.Boolean)">
+ -----------------------------------------------------------------------------
+ <summary>Creates an encoded URL string with all the querystring</summary>
+	<param name="url">The url with the parameter</param>
+	<returns>returns the encoded url string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Security.URLEncode.CheckAllURLIsTampered(System.Web.HttpRequest)">
+ -----------------------------------------------------------------------------
+ <summary>Checks if the encoded url has been tampered with</summary>
+	<param name="Request">The HttpRequest object</param>
+	<returns>returns true if is tampered with</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Web.Security.URLEncode">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Web.Security.URLEncode
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions to secure and encode querystrings.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Security.HashPasswords.HashText(System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Hashes text using FormsAuthentication.HashPasswordForStoringInConfigFile</summary>
+	<param name="text">the text to hash</param>
+	<returns>the hash string</returns>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Web.Security.HashPasswords">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Web.Security.HashPasswords
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions Hash and convert Strings using System.Web inheritance.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebConfig.ProtectAppSection">
+ -----------------------------------------------------------------------------
+ <summary>Will encrypt the appSettings part of you web.config file</summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebConfig.UnProtectAppSection">
+ -----------------------------------------------------------------------------
+ <summary>Will decrypt the appSettings part of you web.config file</summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebConfig.ProtectConnectionStringsSection">
+ -----------------------------------------------------------------------------
+ <summary>Will encrypt the connectionStrings part of you web.config file</summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebConfig.UcProtectConnectionStringsSection">
+ -----------------------------------------------------------------------------
+ <summary>Will decrypt the connectionStrings part of you web.config file</summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Web.WebConfig">
+ -----------------------------------------------------------------------------
+ Class	 : WebConfig
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions relating to the WebConfig class
+ This needs a reference to the system.configuration dll
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Web.ViewState.ViewStateCompessedBasePage">
+ -----------------------------------------------------------------------------
+ Class	 : ViewStateCompessedBasePage
+ -----------------------------------------------------------------------------
+ <summary>
+ This is a base that must be inherited. It provides viewstate compression
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Web.ViewState.ViewStatePageAdapter">
+ -----------------------------------------------------------------------------
+ Class	 : ViewStatePageAdapter
+ -----------------------------------------------------------------------------
+ <summary>
+ This is a page adapter class for removing viewstate from the client to the server.
+ There must be an .browsers file to activate it. 
+ Pages that inherit off System.Web.UI.Page will be included.
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Common.clsResponse.DownloadFile(System.String,System.Web.HttpResponse@)">
+ -----------------------------------------------------------------------------
+ <summary>Downloads a file</summary>
+	<param name="file">the absolute path and filename of the file</param>
+	<param name="response">If omitted, will use the System.Web.HttpContext.Current.Response object</param>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Common.clsResponse.RegisterJS(System.String,System.Web.UI.Page@,System.Int32)">
+ -----------------------------------------------------------------------------
+ <summary>Will register a client side alert javascript</summary>
+	<param name="msg">the alert message to display</param>
+	<param name="page">The page object to register the javascript on</param>
+	<param name="msBufferTime">the time in milliseconds to wait before displaying the message</param>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Common.clsResponse.AddEnterKeyPressOnButton(System.Web.UI.WebControls.TextBox@,System.Web.UI.WebControls.Button@,System.String)">
+ -----------------------------------------------------------------------------
+ <summary>Will try to register and simulate a command button click upon the textbox enter key event</summary>
+	<param name="textbox">The textbox to add the javascript onkeypress event to</param>
+	<param name="commandbutton">The command button to fire when the textbox ENTER keypress event is fired</param>
+	<param name="PreJSLogic">Any javavscript to fire before the command button postback</param>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Common.clsResponse.ResponseWritePDF(System.String)">
+	<summary>
+ writes a pdf to the response object
+ </summary>
+	<param name="filename">the filename and path</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Web.Common.clsResponse.ResponseWritePDF(System.IO.MemoryStream)">
+	<summary>
+ writes a pdf to the response object
+ </summary>
+	<param name="mem">the memory stream to write</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Web.Common.clsResponse.ResponseWritePDF(System.Byte[])">
+	<summary>
+ writes a pdf to the response object
+ </summary>
+	<param name="downloadBytes">the byte array to write</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:mrk.Web.Common.clsResponse.ResponseWriteExcel(System.String)">
+	<summary>
+ writes an excel to the response object
+ </summary>
+	<param name="sHTML">the excel html, usually a rendered datagrid</param>
+	<remarks></remarks>
+</member><member name="T:mrk.Web.Common.clsResponse">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Web.Common.clsResponse
+ 
+ -----------------------------------------------------------------------------
+ <summary>
+ This class provides functions relating to the Response class
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.Common.URL.CurrentURL(System.Boolean)">
+	<summary>
+ gets the current URL
+ </summary>
+	<param name="HostOnly">when true, will return host only</param>
+	<returns></returns>
+	<remarks>http://www.4guysfromrolla.com/webtech/092298-3.shtml</remarks>
+</member><member name="M:mrk.Web.WebControls.DropDownList.SetItemValue(System.String,System.Web.UI.WebControls.DropDownList@)">
+ -----------------------------------------------------------------------------
+ <summary>Tries the set the dropdownlist using the value</summary>
+	<param name="val">the value to set</param>
+	<param name="ddl">the reference of the dropdownlist</param>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebControls.DropDownList.SetItemText(System.String,System.Web.UI.WebControls.DropDownList@)">
+ -----------------------------------------------------------------------------
+ <summary>Tries the set the dropdownlist using the text</summary>
+	<param name="text">the text to set</param>
+	<param name="ddl">the reference of the dropdownlist</param>
+ -----------------------------------------------------------------------------
+
+</member><member name="T:mrk.Web.WebControls.DropDownList">
+ -----------------------------------------------------------------------------
+ Class	 :  mrk.Web.WebControls.DropDownList
+ -----------------------------------------------------------------------------
+ <summary>
+ This class function relating to the web control DropDownList
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebControls.TextBox.RenderClientSideDisable(System.Web.UI.WebControls.TextBox@,System.Boolean)">
+	<summary>
+ Will add html tags to the textbox to disable/enable the input of text
+ </summary>
+	<param name="obj">The textbox object</param>
+	<param name="Disabled">Indicates to disable or enable</param>
+	<remarks></remarks>
+</member><member name="M:mrk.Web.WebControls.TextBox.RenderClientSideDisable(System.Web.UI.WebControls.TextBox@,System.Boolean,System.String,System.String)">
+	<summary>
+ Will add html tags to the textbox to disable/enable the input of text
+ </summary>
+	<param name="obj">The textbox object</param>
+	<param name="Disabled">Indicates to disable or enable</param>
+	<param name="cssDisabled">the disabled css class to associate with the textbox</param>
+	<param name="cssEnabled">the enable css class to associate with the textbox</param>
+	<remarks></remarks>
+</member><member name="T:mrk.Web.WebControls.TextBox">
+ -----------------------------------------------------------------------------
+ Class	 : mrk.Web.WebControls.TextBox
+ -----------------------------------------------------------------------------
+ <summary>
+ This class function relating to the web control TextBox
+ </summary>
+ -----------------------------------------------------------------------------
+
+</member><member name="M:mrk.Web.WebControls.DataGrid.ExportToExcel(System.Web.UI.WebControls.DataGrid)">
+	<summary>
+ Will render the datagrid control to a html string format
+ </summary>
+	<param name="dgExport">the datagrid to render</param>
+	<returns>string</returns>
+	<remarks></remarks>
+</member><member name="T:mrk.Web.WebControls.DataGrid">
+	<summary>
+ v1.0.0: initial release
+ </summary>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

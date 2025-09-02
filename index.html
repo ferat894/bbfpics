@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Busy Bee — Image Selector (Fixed)</title>
+  <style>
+    :root{
+      --bg:#0f1220;
+      --panel:#151a2b;
+      --card:#0f1220;
+      --text:#e6e8f0;
+      --muted:#a3acc2;
+      --brand:#ffd24d;
+      --accent:#8b9efc;
+      --ring:#5a6bff;
+      --good:#18b67e;
+      --danger:#ff6b6b;
+      --line:rgba(255,255,255,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,#0c0f1a 0%,#12172a 100%);
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      display:flex; align-items:center; gap:14px;
+      padding:14px 18px; background:rgba(15,18,32,0.86);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .brand{font-weight:700; letter-spacing:.2px}
+    .spacer{flex:1}
+    .counter{
+      font-weight:600; padding:6px 10px; border-radius:999px;
+      background:rgba(139,158,252,0.15); border:1px solid var(--ring);
+    }
+    .btn{
+      appearance:none; border:1px solid var(--line); color:var(--text);
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.00));
+      padding:9px 14px; border-radius:10px; font-weight:600; cursor:pointer;
+      transition: transform .04s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{ border-color:rgba(255,255,255,0.18)}
+    .btn:active{ transform: translateY(1px)}
+    .btn.primary{ background: linear-gradient(180deg,#5a6bff,#7a89ff); border-color: transparent; color:white }
+    .btn.danger{ border-color: rgba(255,107,107,.4); color:#ffdede }
+    .btn:disabled{ opacity:.5; cursor:not-allowed }
+    .btn.small{ padding:6px 10px; font-size:12px }
+
+    /* Setup panel */
+    .setup{
+      background:rgba(255,210,77,0.1); border:1px solid rgba(255,210,77,0.3);
+      border-radius:12px; padding:16px; margin:20px auto; max-width:800px;
+    }
+    .setup h3{ margin:0 0 12px 0; color:var(--brand); }
+    .setup p{ margin:8px 0; }
+    .setup code{ background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px; }
+    .path-input{ 
+      width:100%; padding:8px 12px; border:1px solid var(--line); 
+      background:var(--panel); color:var(--text); border-radius:8px; 
+      font-family:monospace; margin:8px 0;
+    }
+
+    /* Grid */
+    .wrap{ max-width:1200px; margin:24px auto; padding:0 16px 40px }
+    .grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:14px }
+
+    /* Card */
+    .card{
+      position:relative; overflow:hidden; border-radius:14px;
+      background: radial-gradient(120% 120% at 50% 0%, #1d2340 0%, #131a33 50%, #0e1429 100%);
+      border:1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      cursor:pointer;
+    }
+    .card img{
+      width:100%; height:170px; object-fit:cover; display:block; filter: saturate(1.05);
+      transition: transform .35s ease;
+      background:#0b0f1e;
+    }
+    .card:hover img{ transform: scale(1.04) }
+    .card.error{ border-color:var(--danger); }
+    .card.error img{ filter: grayscale(1) opacity(0.3); }
+
+    .label{
+      position:absolute; left:10px; right:10px; bottom:10px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.6));
+      color:#fff; padding:30px 10px 10px; border-radius:12px;
+      font-size:13px; line-height:1.15; font-weight:600;
+      text-shadow:0 1px 1px rgba(0,0,0,.7);
+    }
+
+    /* Checkbox / tick overlay */
+    .tick{
+      position:absolute; top:10px; right:10px; display:flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
+      background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,0.2); color:#fff;
+      pointer-events:none; user-select:none;
+    }
+    .check{
+      width:18px; height:18px; border-radius:5px; border:2px solid #fff;
+      display:inline-block; position:relative;
+    }
+    .card.selected .check{ background: var(--good); border-color: var(--good)}
+    .card.selected .check:after{
+      content:""; position:absolute; left:4px; top:0px; width:5px; height:10px;
+      border:2px solid #fff; border-top:0; border-left:0; transform: rotate(45deg);
+    }
+
+    .card.selected{
+      outline:2px solid var(--ring);
+      box-shadow: 0 12px 30px rgba(90,107,255,.3);
+    }
+
+    .hint{ color:var(--muted); font-size:13px; margin:10px 0 20px }
+
+    .footer-note{ color:var(--muted); font-size:12px; margin-top:22px }
+
+    .progress{
+      position:fixed; right:16px; bottom:16px; z-index:20;
+      background:#0a1022; border:1px solid var(--line); border-radius:12px;
+      padding:12px 14px; box-shadow: 0 10px 20px rgba(0,0,0,.35);
+      display:none; min-width:260px;
+    }
+    .progress.active{ display:block }
+    .progress .bar{ height:8px; background:#1c2347; border-radius:6px; overflow:hidden; margin-top:8px }
+    .progress .bar > span{ display:block; height:100%; width:0; background:linear-gradient(90deg,#5a6bff,#7a89ff) }
+
+    .status{ 
+      position:fixed; left:16px; bottom:16px; z-index:20; max-width:300px;
+      background:#0a1022; border:1px solid var(--line); border-radius:12px;
+      padding:12px 14px; box-shadow: 0 10px 20px rgba(0,0,0,.35);
+      font-size:12px;
+    }
+    .status.error{ border-color:var(--danger); }
+    .status.success{ border-color:var(--good); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🧩 Busy Bee — Image Selector</div>
+    <div class="spacer"></div>
+    <div id="counter" class="counter">Selected: 0</div>
+    <button id="btn-test" class="btn small">Test Path</button>
+    <button id="btn-download" class="btn primary" disabled>Download Selected</button>
+    <button id="btn-clear" class="btn danger" disabled>Clear</button>
+  </header>
+
+  <main class="wrap">
+    <div class="setup">
+      <h3>🔧 Setup Instructions</h3>
+      <p><strong>Step 1:</strong> Update the image path below to match your folder structure:</p>
+      <input type="text" id="path-input" class="path-input" value="./images/" placeholder="e.g., ./photos/, /assets/images/, https://example.com/images/">
+      <button id="btn-update-path" class="btn small">Update Path & Test</button>
+      
+      <p><strong>Step 2:</strong> Make sure your images exist at that path. Common structures:</p>
+      <ul>
+        <li><code>./images/200.jpg</code> (images folder next to HTML file)</li>
+        <li><code>/assets/flowers/200.jpg</code> (absolute path from website root)</li>
+        <li><code>https://yourdomain.com/images/200.jpg</code> (full URL - needs CORS)</li>
+      </ul>
+      
+      <p><strong>Step 3:</strong> Click "Test Path" to verify the first image loads correctly.</p>
+    </div>
+
+    <p class="hint">Click cards to toggle selection. Use the setup panel above to configure your image path.</p>
+    <section id="grid" class="grid"></section>
+    <p class="footer-note">💡 Make sure to serve this from a web server (not file:// protocol) for downloads to work.</p>
+  </main>
+
+  <aside id="progress" class="progress" role="status" aria-live="polite">
+    <div><strong>Preparing download…</strong> <span id="progress-text"></span></div>
+    <div class="bar"><span id="progress-bar"></span></div>
+  </aside>
+
+  <div id="status" class="status" style="display:none;">
+    <div id="status-content"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    // Configuration
+    let IMAGE_BASE_PATH = './images/';
+    const STORAGE_KEY = 'bb_selected_items_v1';
+
+    // Items array (your complete list)
+    const items = [
+      { "id": "200", "title": "Seduction (Red)", "file": "200.jpg" },
+      { "id": "201", "title": "Seduction (Pink)", "file": "201.jpg" },
+      { "id": "202", "title": "Seduction (Yellow)", "file": "202.jpg" },
+      { "id": "203", "title": "Seduction (White)", "file": "203.jpg" },
+      { "id": "204", "title": "Everlasting Love (Red)", "file": "204.jpg" },
+      { "id": "206", "title": "Everlasting Love (Yellow)", "file": "206.jpg" },
+      { "id": "207", "title": "Everlasting Love (White)", "file": "207.jpg" },
+      { "id": "2308", "title": "Now & Forever", "file": "2308.jpg" },
+      { "id": "2309", "title": "Passion", "file": "2309.jpg" },
+      { "id": "240", "title": "Caress (Pink and Red)", "file": "240.jpg" },
+      { "id": "241", "title": "Caress (Orange and Yellow)", "file": "241.jpg" },
+      { "id": "2521", "title": "Belle", "file": "2521.jpg" },
+      { "id": "264", "title": "Flirt (Red)", "file": "264.jpg" },
+      { "id": "265", "title": "Flirt (Pink)", "file": "265.jpg" },
+      { "id": "266", "title": "Flirt (Yellow)", "file": "266.jpg" },
+      { "id": "267", "title": "Flirt (White)", "file": "267.jpg" },
+      { "id": "272", "title": "First Kiss (Red)", "file": "272.jpg" },
+      { "id": "273", "title": "First Kiss (Pink)", "file": "273.jpg" },
+      { "id": "274", "title": "First Kiss (Yellow)", "file": "274.jpg" },
+      { "id": "275", "title": "First Kiss (White)", "file": "275.jpg" },
+      { "id": "252", "title": "Impulse (Red)", "file": "252.jpg" },
+      { "id": "1729", "title": "Promise", "file": "1729.jpg" },
+      { "id": "736", "title": "Devotion", "file": "736.jpg" },
+      { "id": "742", "title": "Entice", "file": "742.jpg" },
+      { "id": "279", "title": "Bianca", "file": "279.jpg" },
+      { "id": "281", "title": "Graceful", "file": "281.jpg" },
+      { "id": "283", "title": "Harmony", "file": "283.jpg" },
+      { "id": "291", "title": "Ginger", "file": "291.jpg" },
+      { "id": "292", "title": "Snowdrop", "file": "292.jpg" },
+      { "id": "293", "title": "Precious", "file": "293.jpg" },
+      { "id": "297", "title": "Blush", "file": "297.jpg" },
+      { "id": "299", "title": "Bliss", "file": "299.jpg" },
+      { "id": "301", "title": "Berry Delight", "file": "301.jpg" },
+      { "id": "304", "title": "Flourish", "file": "304.jpg" },
+      { "id": "305", "title": "Samba", "file": "305.jpg" }
+    ];
+
+    // DOM elements
+    const grid = document.getElementById('grid');
+    const counter = document.getElementById('counter');
+    const btnDownload = document.getElementById('btn-download');
+    const btnClear = document.getElementById('btn-clear');
+    const btnTest = document.getElementById('btn-test');
+    const btnUpdatePath = document.getElementById('btn-update-path');
+    const pathInput = document.getElementById('path-input');
+    const progress = document.getElementById('progress');
+    const progressText = document.getElementById('progress-text');
+    const progressBar = document.getElementById('progress-bar');
+    const status = document.getElementById('status');
+    const statusContent = document.getElementById('status-content');
+
+    // State
+    const selected = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+    function showStatus(message, type = 'info') {
+      statusContent.textContent = message;
+      status.className = `status ${type}`;
+      status.style.display = 'block';
+      setTimeout(() => status.style.display = 'none', 5000);
+    }
+
+    function saveSelection() { 
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected])); 
+    }
+
+    function updateUI() {
+      counter.textContent = `Selected: ${selected.size}`;
+      btnDownload.disabled = selected.size === 0;
+      btnClear.disabled = selected.size === 0;
+    }
+
+    function cardTemplate(item) {
+      const url = IMAGE_BASE_PATH + item.file;
+      const sel = selected.has(item.id) ? ' selected' : '';
+      return `
+        <article class="card${sel}" data-id="${item.id}" title="${item.title.replace(/"/g,'&quot;')}">
+          <img loading="lazy" 
+               src="${url}" 
+               alt="${item.title}"
+               onerror="this.parentElement.classList.add('error'); this.alt='❌ ${item.file} not found';">
+          <div class="tick"><span class="check"></span>Keep</div>
+          <div class="label">${item.title}</div>
+        </article>`;
+    }
+
+    function render() { 
+      grid.innerHTML = items.map(cardTemplate).join(''); 
+      updateUI(); 
+    }
+
+    async function testImagePath() {
+      const testItem = items[0];
+      const testUrl = IMAGE_BASE_PATH + testItem.file;
+      
+      try {
+        showStatus(`Testing: ${testUrl}`, 'info');
+        const response = await fetch(testUrl, { cache: 'no-cache' });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const blob = await response.blob();
+        showStatus(`✅ Success! Found ${testItem.file} (${blob.size} bytes)`, 'success');
+        return true;
+        
+      } catch (error) {
+        showStatus(`❌ Failed: ${error.message}`, 'error');
+        return false;
+      }
+    }
+
+    // Event handlers
+    grid.addEventListener('click', (e) => {
+      const card = e.target.closest('.card');
+      if (!card || card.classList.contains('error')) return;
+      
+      const id = card.getAttribute('data-id');
+      if (selected.has(id)) selected.delete(id); 
+      else selected.add(id);
+      
+      card.classList.toggle('selected');
+      saveSelection(); 
+      updateUI();
+    });
+
+    btnClear.addEventListener('click', () => {
+      selected.clear(); 
+      saveSelection(); 
+      render();
+      showStatus('Cleared all selections', 'info');
+    });
+
+    btnTest.addEventListener('click', testImagePath);
+
+    btnUpdatePath.addEventListener('click', async () => {
+      const newPath = pathInput.value.trim();
+      if (!newPath) return;
+      
+      IMAGE_BASE_PATH = newPath;
+      render(); // Re-render with new path
+      await testImagePath();
+    });
+
+    // Enhanced download function
+    btnDownload.addEventListener('click', async () => {
+      if (typeof JSZip === 'undefined') { 
+        showStatus('JSZip not available, opening images in tabs', 'info');
+        const urls = items.filter(i => selected.has(i.id)).map(i => IMAGE_BASE_PATH + i.file);
+        urls.forEach(url => window.open(url, '_blank'));
+        return;
+      }
+
+      try {
+        progress.classList.add('active');
+        progressText.textContent = '';
+        progressBar.style.width = '0%';
+
+        const zip = new JSZip();
+        const chosen = items.filter(i => selected.has(i.id));
+        let successful = 0;
+        let failed = 0;
+
+        for (let i = 0; i < chosen.length; i++) {
+          const item = chosen[i];
+          const url = IMAGE_BASE_PATH + item.file;
+          
+          try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            
+            const blob = await res.blob();
+            zip.file(item.file, blob);
+            successful++;
+            
+          } catch (error) {
+            failed++;
+            console.warn(`Failed to fetch ${item.file}:`, error);
+          }
+          
+          const progress_pct = Math.round((i + 1) / chosen.length * 100);
+          progressText.textContent = ` ${i + 1}/${chosen.length}`;
+          progressBar.style.width = progress_pct + '%';
+        }
+
+        if (successful === 0) {
+          throw new Error('No files were successfully downloaded. Check your image path and ensure images exist.');
+        }
+
+        const content = await zip.generateAsync({ type: 'blob' });
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+        const filename = `busybee-selected-${timestamp}.zip`;
+        
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = filename;
+        document.body.appendChild(a); 
+        a.click(); 
+        a.remove();
+        
+        showStatus(`✅ Downloaded ${successful} files${failed > 0 ? ` (${failed} failed)` : ''}`, 'success');
+        
+      } catch (error) {
+        showStatus(`❌ Download failed: ${error.message}`, 'error');
+      } finally {
+        progress.classList.remove('active');
+      }
+    });
+
+    // Initialize
+    pathInput.value = IMAGE_BASE_PATH;
+    render();
+    
+    // Auto-test path on load
+    setTimeout(testImagePath, 1000);
+  </script>
+</body>
+</html>
