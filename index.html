@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Busy Bee — Image Selector (Fixed)</title>
+  <title>Busy Bee — Image Selector (Hardcoded)</title>
   <style>
     :root{
       --bg:#0f1220;
@@ -140,16 +140,30 @@
     }
     .status.error{ border-color:var(--danger); }
     .status.success{ border-color:var(--good); }
+
+    /* Autosave feedback */
+    .autosave{
+      background:rgba(24,182,126,0.1); border:1px solid var(--good);
+      border-radius:8px; padding:12px; margin:16px auto; max-width:800px;
+      display:none;
+    }
+    .autosave.active{ display:block; }
+    .autosave h4{ margin:0 0 8px 0; color:var(--good); font-size:14px; }
+    .autosave pre{ 
+      background:rgba(0,0,0,0.3); padding:8px; border-radius:4px; 
+      font-size:11px; overflow-x:auto; margin:8px 0 0 0;
+      white-space:pre-wrap; word-break:break-all;
+    }
   </style>
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">🧩 Busy Bee — Image Selector</div>
+    <div class="brand">🧩 Busy Bee — Image Selector (Hardcoded)</div>
     <div class="spacer"></div>
     <div id="counter" class="counter">Selected: 0</div>
     <button id="btn-test" class="btn small">Test Path</button>
     <button id="btn-download" class="btn primary" disabled>Download Selected</button>
-    <button id="btn-clear" class="btn danger" disabled>Clear</button>
+    <button id="btn-copy-code" class="btn small">Copy Updated Code</button>
   </header>
 
   <main class="wrap">
@@ -159,17 +173,16 @@
       <input type="text" id="path-input" class="path-input" value="./images/" placeholder="e.g., ./photos/, /assets/images/, https://example.com/images/">
       <button id="btn-update-path" class="btn small">Update Path & Test</button>
       
-      <p><strong>Step 2:</strong> Make sure your images exist at that path. Common structures:</p>
-      <ul>
-        <li><code>./images/200.jpg</code> (images folder next to HTML file)</li>
-        <li><code>/assets/flowers/200.jpg</code> (absolute path from website root)</li>
-        <li><code>https://yourdomain.com/images/200.jpg</code> (full URL - needs CORS)</li>
-      </ul>
-      
-      <p><strong>Step 3:</strong> Click "Test Path" to verify the first image loads correctly.</p>
+      <p><strong>Step 2:</strong> Click items to select/deselect. Your changes are automatically saved in the code below.</p>
+      <p><strong>Step 3:</strong> Copy the updated code and replace it in your HTML file to make selections permanent.</p>
     </div>
 
-    <p class="hint">Click cards to toggle selection. Use the setup panel above to configure your image path.</p>
+    <div id="autosave" class="autosave">
+      <h4>🔄 Auto-saved! Copy this updated code:</h4>
+      <pre id="autosave-code"></pre>
+    </div>
+
+    <p class="hint">Click cards to toggle selection. Changes are automatically saved in the code above.</p>
     <section id="grid" class="grid"></section>
     <p class="footer-note">💡 Make sure to serve this from a web server (not file:// protocol) for downloads to work.</p>
   </main>
@@ -187,7 +200,198 @@
   <script>
     // Configuration
     let IMAGE_BASE_PATH = './images/';
-    const STORAGE_KEY = 'bb_selected_items_v1';
+
+    // HARDCODED SELECTIONS - UPDATE THESE VALUES (1 = selected, 0 = unselected)
+    const selections = {
+      "200": 0,    // Seduction (Red)
+      "201": 0,    // Seduction (Pink)
+      "202": 0,    // Seduction (Yellow)
+      "203": 0,    // Seduction (White)
+      "204": 0,    // Everlasting Love (Red)
+      "206": 0,    // Everlasting Love (Yellow)
+      "207": 0,    // Everlasting Love (White)
+      "2308": 0,   // Now & Forever
+      "2309": 0,   // Passion
+      "240": 0,    // Caress (Pink and Red)
+      "241": 0,    // Caress (Orange and Yellow)
+      "2521": 0,   // Belle
+      "264": 0,    // Flirt (Red)
+      "265": 0,    // Flirt (Pink)
+      "266": 0,    // Flirt (Yellow)
+      "267": 0,    // Flirt (White)
+      "272": 0,    // First Kiss (Red)
+      "273": 0,    // First Kiss (Pink)
+      "274": 0,    // First Kiss (Yellow)
+      "275": 0,    // First Kiss (White)
+      "252": 0,    // Impulse (Red)
+      "1729": 0,   // Promise
+      "736": 0,    // Devotion
+      "742": 0,    // Entice
+      "279": 0,    // Bianca
+      "281": 0,    // Graceful
+      "283": 0,    // Harmony
+      "291": 0,    // Ginger
+      "292": 0,    // Snowdrop
+      "293": 0,    // Precious
+      "297": 0,    // Blush
+      "299": 0,    // Bliss
+      "301": 0,    // Berry Delight
+      "304": 0,    // Flourish
+      "305": 0,    // Samba
+      "723": 0,    // Pink Perfection
+      "750": 0,    // Simplicity
+      "751": 0,    // Cosmopolitan
+      "752": 0,    // Zesty
+      "309": 0,    // Charlie
+      "310": 0,    // Lola
+      "314": 0,    // It's a Girl!
+      "315": 0,    // It's a Boy!
+      "316": 0,    // Congratulations (Pink)
+      "317": 0,    // Congratulations (Blue)
+      "318": 0,    // Congratulations (Neutral)
+      "329": 0,    // Viva
+      "337": 0,    // Violetta
+      "347": 0,    // Tenderness
+      "767": 0,    // Bright Delight
+      "768": 0,    // Congrats!
+      "784": 0,    // Abundance
+      "302": 0,    // Panache
+      "303": 0,    // Tranquility
+      "343": 0,    // La Dolce Vita
+      "345": 0,    // Sunrise
+      "359": 0,    // Allegra
+      "725": 0,    // Prudence
+      "321": 0,    // Bush Blooms
+      "288": 0,    // Tropicana
+      "319": 0,    // Radiance
+      "320": 0,    // Forest
+      "708": 0,    // Executive
+      "348": 0,    // Softness
+      "349": 0,    // Enchantment
+      "350": 0,    // Dazzling
+      "372": 0,    // Sassy
+      "340": 0,    // Whimsy
+      "341": 0,    // Hope
+      "342": 0,    // Pinky
+      "363": 0,    // Elle
+      "364": 0,    // Flamenco
+      "370": 0,    // La Luna
+      "371": 0,    // Carnivale
+      "378": 0,    // Sweetness
+      "379": 0,    // Sangria
+      "399": 0,    // Grace
+      "400": 0,    // Innocence
+      "338": 0,    // Get Well Hugs
+      "339": 0,    // Rainbow
+      "394": 0,    // Comfort
+      "395": 0,    // Endearment
+      "356": 0,    // Zingy
+      "331": 0,    // Joy
+      "405": 0,    // Contemplation
+      "407": 0,    // Eternity (Pink)
+      "408": 0,    // Eternity (White)
+      "410": 0,    // Treasured Moments
+      "411": 0,    // Faith
+      "412": 0,    // Comforting Embrace
+      "787": 0,    // Twice The Treat
+      "783": 0,    // Melody
+      "724": 0,    // Contessa
+      "714": 0,    // Funky
+      "719": 0,    // Harlequin
+      "744": 0,    // Bush Beauty
+      "711": 0,    // Splice
+      "814": 0,    // Birthday Surprise
+      "776": 0,    // Golden Glow
+      "773": 0,    // Petite Belle
+      "785": 0,    // Lemon n Lime
+      "722": 0,    // Bella
+      "766": 0,    // Splish Splash
+      "775": 0,    // Get Well Soon
+      "780": 0,    // Dainty
+      "763": 0,    // Forever
+      "333": 0,    // Good Health
+      "847": 0,    // Virtue
+      "715": 0,    // Moon Shadow
+      "818": 0,    // Traditional Cross
+      "836": 0,    // Unforgettable
+      "816": 0,    // Informal Cross
+      "821": 0,    // Sympathy Spray
+      "826": 0,    // Lavish
+      "840": 0,    // Wreath
+      "701": 0,    // Fresh
+      "792": 0,    // Habitat
+      "703": 0,    // Tempest
+      "739": 0,    // Desire
+      "2305": 0,   // Love
+      "2306": 0,   // Affection
+      "740": 0,    // Vogue
+      "1706": 0,   // Blush
+      "1701": 0,   // Impulse (Yellow)
+      "1707": 0,   // Erin
+      "1709": 0,   // Marissa
+      "1710": 0,   // Alexia
+      "1714": 0,   // Katherine
+      "1715": 0,   // Jade
+      "1716": 0,   // Shelley
+      "768_2hzeqkaz.yq1": 0, // Congrats!
+      "1702": 0,   // Eternal Love
+      "1703": 0,   // Key to My Heart
+      "1724": 0,   // Lilies & Roses
+      "1705": 0,   // Classique
+      "1711": 0,   // Rhiannon
+      "1712": 0,   // Simple (Orange)
+      "1713": 0,   // Simple (Pink)
+      "1719": 0,   // Contemplation- Pink
+      "1720": 0,   // Honour
+      "1910": 0,   // Lace
+      "1901": 0,   // Aurellia
+      "1904": 0,   // Elegance
+      "1913": 0,   // Sympathy
+      "1905": 0,   // Grand Temptation (Red)
+      "1915": 0,   // Pot Plant
+      "1914": 0,   // Bridget
+      "1917": 0,   // Gemma
+      "1916": 0,   // Pot Plant
+      "2030": 0,   // Sunkiss
+      "2029": 0,   // Serenity
+      "2020": 0,   // Danica
+      "2021": 0,   // Remembrance - Red
+      "2022": 0,   // Remembrance - White
+      "2023": 0,   // With Sorrow
+      "2024": 0,   // Pretty in Pink
+      "2025": 0,   // Chloe
+      "2026": 0,   // Zahara
+      "2027": 0,   // Avocado
+      "2028": 0,   // Golden Hour
+      "0142": 0,   // Special Love Hatbox
+      "2304": 0,   // Adore
+      "2422": 0,   // Grand Temptation (Pink)
+      "4422": 0,   // Rosaline
+      "5422": 0,   // Hugs and Kisses
+      "6422": 0,   // Rosa
+      "2052": 0,   // Cora
+      "280": 0,    // Simone
+      "3200": 0,   // Crystal
+      "3201": 0,   // Chantel
+      "3023": 0,   // Solar
+      "2302": 0,   // Summer love
+      "2303": 0,   // Perfect pink
+      "2307": 0,   // Allure
+      "2401": 0,   // Delicate Carnations
+      "2405": 0,   // Sunshine
+      "2406": 0,   // Classic white roses
+      "2412": 0,   // Dreamy Disbuds
+      "2413": 0,   // Starburst (Pink)
+      "2414": 0,   // Classic pastel roses
+      "2418": 0,   // Delightful
+      "2402": 0,   // Starburst (Purple and White)
+      "2403": 0,   // Starburst (Rainbow)
+      "2404": 0,   // Blue Moon
+      "2407": 0,   // Sunburst
+      "2409": 0,   // Mon amor
+      "2415": 0,   // Spring blooms
+      "2417": 0    // Joyful
+    };
 
     // Items array (your complete list)
     const items = [
@@ -381,12 +585,11 @@
   { "id": "2417", "title": "Joyful", "file": "2417.jpg" }
 ];
 
-
     // DOM elements
     const grid = document.getElementById('grid');
     const counter = document.getElementById('counter');
     const btnDownload = document.getElementById('btn-download');
-    const btnClear = document.getElementById('btn-clear');
+    const btnCopyCode = document.getElementById('btn-copy-code');
     const btnTest = document.getElementById('btn-test');
     const btnUpdatePath = document.getElementById('btn-update-path');
     const pathInput = document.getElementById('path-input');
@@ -395,9 +598,8 @@
     const progressBar = document.getElementById('progress-bar');
     const status = document.getElementById('status');
     const statusContent = document.getElementById('status-content');
-
-    // State
-    const selected = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    const autosave = document.getElementById('autosave');
+    const autosaveCode = document.getElementById('autosave-code');
 
     function showStatus(message, type = 'info') {
       statusContent.textContent = message;
@@ -406,19 +608,36 @@
       setTimeout(() => status.style.display = 'none', 5000);
     }
 
-    function saveSelection() { 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected])); 
+    function updateUI() {
+      const selectedCount = Object.values(selections).filter(v => v === 1).length;
+      counter.textContent = `Selected: ${selectedCount}`;
+      btnDownload.disabled = selectedCount === 0;
     }
 
-    function updateUI() {
-      counter.textContent = `Selected: ${selected.size}`;
-      btnDownload.disabled = selected.size === 0;
-      btnClear.disabled = selected.size === 0;
+    function generateSelectionsCode() {
+      const lines = Object.entries(selections).map(([id, value]) => {
+        const item = items.find(i => i.id === id);
+        const comment = item ? ` // ${item.title}` : '';
+        return `      "${id}": ${value},${comment}`;
+      });
+      
+      return `    const selections = {
+${lines.join('\n')}
+    };`;
+    }
+
+    function showAutosave() {
+      const code = generateSelectionsCode();
+      autosaveCode.textContent = code;
+      autosave.classList.add('active');
+      
+      // Hide after 10 seconds
+      setTimeout(() => autosave.classList.remove('active'), 10000);
     }
 
     function cardTemplate(item) {
       const url = IMAGE_BASE_PATH + item.file;
-      const sel = selected.has(item.id) ? ' selected' : '';
+      const sel = selections[item.id] === 1 ? ' selected' : '';
       return `
         <article class="card${sel}" data-id="${item.id}" title="${item.title.replace(/"/g,'&quot;')}">
           <img loading="lazy" 
@@ -463,19 +682,13 @@
       if (!card || card.classList.contains('error')) return;
       
       const id = card.getAttribute('data-id');
-      if (selected.has(id)) selected.delete(id); 
-      else selected.add(id);
+      
+      // Toggle selection
+      selections[id] = selections[id] === 1 ? 0 : 1;
       
       card.classList.toggle('selected');
-      saveSelection(); 
       updateUI();
-    });
-
-    btnClear.addEventListener('click', () => {
-      selected.clear(); 
-      saveSelection(); 
-      render();
-      showStatus('Cleared all selections', 'info');
+      // showAutosave();
     });
 
     btnTest.addEventListener('click', testImagePath);
@@ -489,11 +702,23 @@
       await testImagePath();
     });
 
+    btnCopyCode.addEventListener('click', async () => {
+      const code = generateSelectionsCode();
+      try {
+        await navigator.clipboard.writeText(code);
+        showStatus('✅ Code copied to clipboard!', 'success');
+      } catch (error) {
+        showStatus('❌ Failed to copy. Use Ctrl+C to copy from the autosave box.', 'error');
+        showAutosave();
+      }
+    });
+
     // Enhanced download function
     btnDownload.addEventListener('click', async () => {
       if (typeof JSZip === 'undefined') { 
         showStatus('JSZip not available, opening images in tabs', 'info');
-        const urls = items.filter(i => selected.has(i.id)).map(i => IMAGE_BASE_PATH + i.file);
+        const selectedItems = items.filter(i => selections[i.id] === 1);
+        const urls = selectedItems.map(i => IMAGE_BASE_PATH + i.file);
         urls.forEach(url => window.open(url, '_blank'));
         return;
       }
@@ -504,12 +729,12 @@
         progressBar.style.width = '0%';
 
         const zip = new JSZip();
-        const chosen = items.filter(i => selected.has(i.id));
+        const selectedItems = items.filter(i => selections[i.id] === 1);
         let successful = 0;
         let failed = 0;
 
-        for (let i = 0; i < chosen.length; i++) {
-          const item = chosen[i];
+        for (let i = 0; i < selectedItems.length; i++) {
+          const item = selectedItems[i];
           const url = IMAGE_BASE_PATH + item.file;
           
           try {
@@ -525,8 +750,8 @@
             console.warn(`Failed to fetch ${item.file}:`, error);
           }
           
-          const progress_pct = Math.round((i + 1) / chosen.length * 100);
-          progressText.textContent = ` ${i + 1}/${chosen.length}`;
+          const progress_pct = Math.round((i + 1) / selectedItems.length * 100);
+          progressText.textContent = ` ${i + 1}/${selectedItems.length}`;
           progressBar.style.width = progress_pct + '%';
         }
 
