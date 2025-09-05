@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Busy Bee — Image Selector (Fixed)</title>
+  <title>Busy Bee — Image Selector</title>
   <style>
     :root{
       --bg:#0f1220;
@@ -48,7 +48,6 @@
     }
     .btn:hover{ border-color:rgba(255,255,255,0.18)}
     .btn:active{ transform: translateY(1px)}
-    .btn.primary{ background: linear-gradient(180deg,#5a6bff,#7a89ff); border-color: transparent; color:white }
     .btn.danger{ border-color: rgba(255,107,107,.4); color:#ffdede }
     .btn:disabled{ opacity:.5; cursor:not-allowed }
     .btn.small{ padding:6px 10px; font-size:12px }
@@ -120,18 +119,6 @@
 
     .hint{ color:var(--muted); font-size:13px; margin:10px 0 20px }
 
-    .footer-note{ color:var(--muted); font-size:12px; margin-top:22px }
-
-    .progress{
-      position:fixed; right:16px; bottom:16px; z-index:20;
-      background:#0a1022; border:1px solid var(--line); border-radius:12px;
-      padding:12px 14px; box-shadow: 0 10px 20px rgba(0,0,0,.35);
-      display:none; min-width:260px;
-    }
-    .progress.active{ display:block }
-    .progress .bar{ height:8px; background:#1c2347; border-radius:6px; overflow:hidden; margin-top:8px }
-    .progress .bar > span{ display:block; height:100%; width:0; background:linear-gradient(90deg,#5a6bff,#7a89ff) }
-
     .status{ 
       position:fixed; left:16px; bottom:16px; z-index:20; max-width:300px;
       background:#0a1022; border:1px solid var(--line); border-radius:12px;
@@ -148,26 +135,22 @@
     <div class="spacer"></div>
     <div id="counter" class="counter">Selected: 0</div>
     <button id="btn-test" class="btn small">Test Path</button>
-    <button id="btn-download" class="btn primary" disabled>Download Selected</button>
+    <button id="btn-download" class="btn primary" disabled>Download List</button>
     <button id="btn-clear" class="btn danger" disabled>Clear</button>
   </header>
 
   <main class="wrap">
     <div class="setup">
-      <h3>🔧 Setup Instructions</h3>
-      <p><strong>Step 1:</strong> Update the image path below to match your folder structure:</p>
-      <input type="text" id="path-input" class="path-input" value="./images/" placeholder="e.g., ./photos/, /assets/images/, https://example.com/images/">
-      <button id="btn-update-path" class="btn small">Update Path & Test</button>
-      
-      <p><strong>Step 2:</strong> Make sure your images exist at that path. Common structures:</p>
-      <ul>
-        <li><code>./images/200.jpg</code> (images folder next to HTML file)</li>
-        <li><code>/assets/flowers/200.jpg</code> (absolute path from website root)</li>
-        <li><code>https://yourdomain.com/images/200.jpg</code> (full URL - needs CORS)</li>
-      </ul>
-      
-      <p><strong>Step 3:</strong> Click "Test Path" to verify the first image loads correctly.</p>
-    </div>
+      <h3>🔧Instructions</h3>
+      <input type="text" id="path-input" class="path-input" value="./images/" placeholder="e.g., ./photos/, /assets/images/, https://example.com/images/" style="display:none">
+      <button id="btn-update-path" class="btn small" style="display:none">Update Path & Test</button>
+  <p>Select images you would like to keep.</p>
+  <p>Once all selected, press the <strong>Download List</strong> button.</p>
+  <p>Email the downloaded file to <code>ozbeyromeo@gmail.com</code>.</p>
+
+  <!-- Hidden path input (still functional) -->
+  <input type="text" id="path-input" class="path-input" value="./images/" style="display:none">
+</div>
 
     <p class="hint">Click cards to toggle selection. Use the setup panel above to configure your image path.</p>
     <section id="grid" class="grid"></section>
@@ -183,14 +166,11 @@
     <div id="status-content"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script>
-    // Configuration
     let IMAGE_BASE_PATH = './images/';
     const STORAGE_KEY = 'bb_selected_items_v1';
 
-    // Items array (your complete list)
-    const items = [
+   const items = [
   { "id": "200", "title": "Seduction (Red)", "file": "200.jpg" },
   { "id": "201", "title": "Seduction (Pink)", "file": "201.jpg" },
   { "id": "202", "title": "Seduction (Yellow)", "file": "202.jpg" },
@@ -380,9 +360,6 @@
   { "id": "2415", "title": "Spring blooms", "file": "2415.jpg" },
   { "id": "2417", "title": "Joyful", "file": "2417.jpg" }
 ];
-
-
-    // DOM elements
     const grid = document.getElementById('grid');
     const counter = document.getElementById('counter');
     const btnDownload = document.getElementById('btn-download');
@@ -396,7 +373,6 @@
     const status = document.getElementById('status');
     const statusContent = document.getElementById('status-content');
 
-    // State
     const selected = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
 
     function showStatus(message, type = 'info') {
@@ -406,8 +382,8 @@
       setTimeout(() => status.style.display = 'none', 5000);
     }
 
-    function saveSelection() { 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected])); 
+    function saveSelection() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected]));
     }
 
     function updateUI() {
@@ -420,60 +396,51 @@
       const url = IMAGE_BASE_PATH + item.file;
       const sel = selected.has(item.id) ? ' selected' : '';
       return `
-        <article class="card${sel}" data-id="${item.id}" title="${item.title.replace(/"/g,'&quot;')}">
-          <img loading="lazy" 
-               src="${url}" 
-               alt="${item.title}"
-               onerror="this.parentElement.classList.add('error'); this.alt='❌ ${item.file} not found';">
+        <article class="card${sel}" data-id="${item.id}" title="${item.title.replace(/"/g, '&quot;')}">
+          <img loading="lazy" src="${url}" alt="${item.title}" onerror="this.parentElement.classList.add('error'); this.alt='❌ ${item.file} not found';">
           <div class="tick"><span class="check"></span>Keep</div>
           <div class="label">${item.title}</div>
         </article>`;
     }
 
-    function render() { 
-      grid.innerHTML = items.map(cardTemplate).join(''); 
-      updateUI(); 
+    function render() {
+      grid.innerHTML = items.map(cardTemplate).join('');
+      updateUI();
     }
 
     async function testImagePath() {
       const testItem = items[0];
       const testUrl = IMAGE_BASE_PATH + testItem.file;
-      
+
       try {
         showStatus(`Testing: ${testUrl}`, 'info');
         const response = await fetch(testUrl, { cache: 'no-cache' });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-        
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         const blob = await response.blob();
         showStatus(`✅ Success! Found ${testItem.file} (${blob.size} bytes)`, 'success');
         return true;
-        
       } catch (error) {
         showStatus(`❌ Failed: ${error.message}`, 'error');
         return false;
       }
     }
 
-    // Event handlers
     grid.addEventListener('click', (e) => {
       const card = e.target.closest('.card');
       if (!card || card.classList.contains('error')) return;
-      
+
       const id = card.getAttribute('data-id');
-      if (selected.has(id)) selected.delete(id); 
+      if (selected.has(id)) selected.delete(id);
       else selected.add(id);
-      
+
       card.classList.toggle('selected');
-      saveSelection(); 
+      saveSelection();
       updateUI();
     });
 
     btnClear.addEventListener('click', () => {
-      selected.clear(); 
-      saveSelection(); 
+      selected.clear();
+      saveSelection();
       render();
       showStatus('Cleared all selections', 'info');
     });
@@ -483,84 +450,35 @@
     btnUpdatePath.addEventListener('click', async () => {
       const newPath = pathInput.value.trim();
       if (!newPath) return;
-      
       IMAGE_BASE_PATH = newPath;
-      render(); // Re-render with new path
+      render();
       await testImagePath();
     });
 
-    // Enhanced download function
-    btnDownload.addEventListener('click', async () => {
-      if (typeof JSZip === 'undefined') { 
-        showStatus('JSZip not available, opening images in tabs', 'info');
-        const urls = items.filter(i => selected.has(i.id)).map(i => IMAGE_BASE_PATH + i.file);
-        urls.forEach(url => window.open(url, '_blank'));
+    // ✅ NEW: Download TXT list of selected filenames
+    btnDownload.addEventListener('click', () => {
+      const chosen = items.filter(i => selected.has(i.id));
+      if (chosen.length === 0) {
+        showStatus('No items selected to list.', 'error');
         return;
       }
 
-      try {
-        progress.classList.add('active');
-        progressText.textContent = '';
-        progressBar.style.width = '0%';
+      const fileNames = chosen.map(i => i.file).join('\n');
+      const blob = new Blob([fileNames], { type: 'text/plain' });
 
-        const zip = new JSZip();
-        const chosen = items.filter(i => selected.has(i.id));
-        let successful = 0;
-        let failed = 0;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'selected-images.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
 
-        for (let i = 0; i < chosen.length; i++) {
-          const item = chosen[i];
-          const url = IMAGE_BASE_PATH + item.file;
-          
-          try {
-            const res = await fetch(url, { cache: 'no-cache' });
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            
-            const blob = await res.blob();
-            zip.file(item.file, blob);
-            successful++;
-            
-          } catch (error) {
-            failed++;
-            console.warn(`Failed to fetch ${item.file}:`, error);
-          }
-          
-          const progress_pct = Math.round((i + 1) / chosen.length * 100);
-          progressText.textContent = ` ${i + 1}/${chosen.length}`;
-          progressBar.style.width = progress_pct + '%';
-        }
-
-        if (successful === 0) {
-          throw new Error('No files were successfully downloaded. Check your image path and ensure images exist.');
-        }
-
-        const content = await zip.generateAsync({ type: 'blob' });
-        const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
-        const filename = `busybee-selected-${timestamp}.zip`;
-        
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(content);
-        a.download = filename;
-        document.body.appendChild(a); 
-        a.click(); 
-        a.remove();
-        
-        showStatus(`✅ Downloaded ${successful} files${failed > 0 ? ` (${failed} failed)` : ''}`, 'success');
-        
-      } catch (error) {
-        showStatus(`❌ Download failed: ${error.message}`, 'error');
-      } finally {
-        progress.classList.remove('active');
-      }
+      showStatus(`📄 Downloaded list of ${chosen.length} file names.`, 'success');
     });
 
-    // Initialize
     pathInput.value = IMAGE_BASE_PATH;
     render();
-    
-    // Auto-test path on load
     setTimeout(testImagePath, 1000);
   </script>
-  
 </body>
 </html>
